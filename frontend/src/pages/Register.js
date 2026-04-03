@@ -9,7 +9,7 @@ const Register = () => {
     email: '',
     password: '',
   });
-  const [error, setError] = useState('');
+  const [error] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
