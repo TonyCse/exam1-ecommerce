@@ -1,9 +1,12 @@
 // backend/seeder.js
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const Product = require('./models/Product'); // Assurez-vous que le chemin est correct
-
 dotenv.config();
+console.log('MONGO_URI utilisé :', process.env.MONGO_URI);
+
+const mongoose = require('mongoose');
+const Product = require('./models/Product'); // Assurez-vous que le chemin est correct
+dotenv.config();
+console.log('MONGO_URI utilisé :', process.env.MONGO_URI);
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URI, {
