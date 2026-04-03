@@ -71,17 +71,17 @@ jobs:
           push: true
           tags: ghcr.io/tonycse/exam1-ecommerce/stock-management:latest
 
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to production server
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: deploy
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /opt/exam1
-            docker-compose pull
-            docker-compose up -d --remove-orphans
+#   deploy:
+#     needs: build-and-push
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Deploy to production server
+#         uses: appleboy/ssh-action@v1
+#         with:
+#           host: ${{ secrets.SERVER_IP }}
+#           username: deploy
+#           key: ${{ secrets.SSH_PRIVATE_KEY }}
+#           script: |
+#             cd /opt/exam1
+#             docker-compose pull
+#             docker-compose up -d --remove-orphans
