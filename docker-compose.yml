@@ -1,0 +1,59 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - '5000:5000'
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/exam1Db
+      - PORT=5000
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - mongo
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mongo:
+    image: mongo
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  gateway:
+    build: ./gateway
+    ports:
+      - '8000:8000'
+    environment:
+      - GATEWAY_PORT=8000
+      - NOTIFI_SERVICE_URL=http://notifications:4002
+      - STOCK_SERVICE_URL=http://stock-management:4003
+    depends_on:
+      - notifications
+      - stock-management
+
+  notifications:
+    build: ./microservices/notifications
+    ports:
+      - '4002:4002'
+    environment:
+      - NOTIFI_PORT=4002
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_APPLICATION_PASSWORD=${EMAIL_APPLICATION_PASSWORD}
+
+  stock-management:
+    build: ./microservices/stock-management
+    ports:
+      - '4003:4003'
+
+volumes:
+  mongo-data:
